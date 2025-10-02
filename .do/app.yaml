@@ -1,0 +1,30 @@
+alerts:
+- rule: DEPLOYMENT_FAILED
+- rule: DEPLOYMENT_LIVE
+envs:
+- key: PYTHON_VERSION
+  scope: RUN_TIME
+  value: "3.11"
+- key: PORT
+  scope: RUN_TIME
+  value: "8000"
+name: vnexpress-news-api
+region:
+- ams
+services:
+- build_command: pip install -r requirements.txt
+  environment_slug: python
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: YOUR_USERNAME/YOUR_REPO_NAME
+  health_check:
+    http_path: /health
+  http_port: 8000
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  name: api
+  routes:
+  - path: /
+  run_command: gunicorn -c gunicorn.conf.py main:app
+  source_dir: /

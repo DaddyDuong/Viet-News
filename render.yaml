@@ -1,0 +1,13 @@
+# Render Deployment Configuration
+name: vnexpress-news-api
+type: web
+env: python
+buildCommand: pip install -r requirements.txt
+startCommand: gunicorn -c gunicorn.conf.py main:app
+plan: free
+region: oregon
+autoDeploy: true
+healthCheckPath: /health
+envVars:
+- key: PYTHON_VERSION
+  value: 3.11.0
